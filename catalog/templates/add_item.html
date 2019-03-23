@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+
+	</head>
+  <body>
+    <header>
+  		<div class = "header">
+  			<h1 class="title">Catalog App</h1>
+  		</div>
+			<button type="button" onclick="location.href='/' ">Home</button>
+  	</header>
+    <section>
+      <center>
+      <div class="wrapper2">
+        <div class="desc">
+					<h2 class="cate_name">Add Item</h2>
+            <form action="{{url_for('addItem')}}" method="POST">
+							<label for "title">Title</label>
+							<input type="text" name="title" placeholder="Title" autofocus required><br>
+							<label for "description">Description</label>
+							<textarea maxlength="250" name="description" rows="3" name="description" placeholder="Description" autofocus required></textarea><br>
+							<label for "category">Category</label>
+							<select id="dropdown" name="category">
+								{% for i in category %}
+								<option value="{{i.name}}">{{i.name}}<option>
+								{% endfor %}
+							</select><br>
+
+							<script>
+							var selectobject=document.getElementById("dropdown");
+							for (var i=0; i<selectobject.length; i++){
+								if (selectobject.options[i].value == '' )
+	 							selectobject.remove(i);
+							}
+							</script>
+
+							<button type="submit">Add</button>
+						</form>
+        </div>
+      </div>
+      </center>
+    </section>
+  </body>
+</html>

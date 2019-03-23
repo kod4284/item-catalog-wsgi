@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+
+	</head>
+  <body>
+    <header>
+  		<div class = "header">
+  			<h1 class="title">Catalog App</h1>
+  		</div>
+			<button type="button" onclick="location.href='/' ">Home</button>
+  	</header>
+    <section>
+      <center>
+      <div class="wrapper2">
+        <div class="desc">
+          <h2 class="cate_name">{{item.name}}</h2>
+            <p>Description: {{item.description}}</p>
+        </div>
+      </div>
+      </center>
+    </section>
+  </body>
+</html>

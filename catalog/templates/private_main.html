@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+
+	</head>
+  <body>
+    <header>
+  		<div class = "header">
+  			<h1 class="title">Catalog App</h1>
+  		</div>
+      <button type="button" onclick="location.href='{{url_for('gdisconnect')}}' ">Logout</button>
+  	</header>
+    <section>
+      <center>
+      	<div class="wrapper">
+      		<div class="categories">
+      			<h2 class="cate_name">Categories</h2>
+      				{% for i in category %}
+      				<a class="cate_value" href="{{ url_for('showItems', category_name=i.name)}}">{{i.name}}<br></a>
+      				{% endfor %}
+      		</div>
+      		<div class="items">
+							{% with messages = get_flashed_messages() %}
+							<a href="{{url_for('addItem')}}">Add item</a>
+							{% endwith %}
+      			<h2 class="cate_name">Latest Items</h2>
+              {% for i in item %}
+              <a class="cate_value" href="{{ url_for('showDecription', category_name=i.category.name, item_name=i.name)}}">{{i.name}}</a>
+              <a>({{i.category.name}})<br></a>
+              {% endfor %}
+      		</div>
+      	</div>
+      </center>
+    </section>
+  </body>
+</html>
