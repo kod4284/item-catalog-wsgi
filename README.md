@@ -1,62 +1,144 @@
-# Item Catalog
+# item-catalog-wsgi
+-------------------
+Linux Sever Configuration for Item Catalog application I have made before [Item Catalog](https://github.com/kodw0402/item-catalog)
 
-Item Catalog is a program that showing items that user creates and managing their own items.
-In the application, you can see the items what you and the other users created.
-You can create, delete, update your own items. However, you can't delete the other users' items.
-In order to create an item, you should have a Google account to login this application.
+The Item Catalog application is now running on the Linux sever on the Apache2 environment.
 
-Install
---------
-You should install python2 or python3 in order to run this program, click one of the links provided: [Python2](https://www.python.org/downloads/release/python-2715/) Or [Python3](https://www.python.org/downloads/release/python-372/)
+Visit http://daewoongko.ga to see it.
 
-Also you should install VirtualBox and Vagrant, click the links to download: [VirtualBox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com/downloads.html)
+If the link doesn't work, try https://50.17.107.48.xip.io
 
-After you install the all programs above, you should set up Vagrant with VirtualBox.
 
-The Vagrant configuration file is included within this repository so you can set the environment simply.
+Server Information
+------------------
+public IP Address: 50.17.107.48
+private key(grader) is not provided here
 
-Open your terminal and type following codes in the directory where you cloned the repository:
-```shell
-vagrant up
+Open ports are:
+* SSH Port: 2200
+* HTTP: 80
+* NTP: 123
 ```
-After that type:
-```shell
-vagrant ssh
-```
-Then you are ready to run the application.
-
-Running
--------
-On your terminal with VM environment, go to the directory that include the files cloned from the repository.
-
-You should run "database_setup.py" to make database
-```shell
-python database_setup.py
-```
-If you use python3:
-```shell
-python3 database_setup.py
+To                         Action      From
+--                         ------      ----
+2200                       ALLOW       Anywhere
+80/tcp                     ALLOW       Anywhere
+123                        ALLOW       Anywhere
+2200 (v6)                  ALLOW       Anywhere (v6)
+80/tcp (v6)                ALLOW       Anywhere (v6)
+123 (v6)                   ALLOW       Anywhere (v6)
 ```
 
-For testing purpose, "adding_db" file is included. You can populate the database with dummy data using this file. However, this is optional step.
+Instruction to SSH
+------------------
+Download the private key and locate it under your path `~/.ssh/`
 
-Type the commend to open the server of the program.
+Open a terminal window and type:
 ```shell
-python application.py
-```
-If you use python3:
-```shell
-python3 application.py
+ssh grader@50.17.107.48 -p 2200 -i ~/.ssh/grader
 ```
 
-Now, go to your web browser and type "http://localhost:8000/" to access the application.
+Add a new user
+--------------
+After login-in via the terminal, type:
+```shell
+sudo adduser <new username>
+sudo touch /etc/sudoers.d/<new username>
+sudo nano /etc/sudoers.d/<new username>
+```
+And on the nano widow, type:
+```shell
+<new username> ALL=(ALL:ALL) ALL
+```
+type CTRL+X, 'y' and ENTER to save and exit
 
-More Information
-----------------
-You can see the database as a JSON file by following link below:
-Type "http://localhost:8000/catalog.json" to get all catalogs and items db
-Or
-Type "http://localhost:8000//catalog/<item_name>.json" to get item db
+making new ssh key by using ssh-keygen
+--------------------------------------
+On the client computer, open terminal and type:
+```shell
+ssh-keygen
+```
+By following the step, you can generate private and public key in the path ~/.ssh
+
+Now you should copy the value of key into the server.
+
+On your server side terminal, type
+```shell
+sudo nano .ssh/authorized_keys
+```
+Copy the public key value into this and save
+
+Give permission by typing
+```shell
+chmod 700 .ssh
+chmod 644 .ssh/authorized_keys
+```
+
+Keep the sever up-to-date
+-------------------------
+```shell
+sudo apt-get update
+sudo apt-get upgrade
+```
+
+Change the SSH port from 22 to 2200
+-----------------------------------
+```shell
+sudo ufw allow 2200
+sudo ufw allow 80
+sudo ufw allow 123
+sudo ufw enable
+```
+
+Install Apache2 and mod_wsgi to run Python Flask application
+------------------------------------------------------------
+
+```shell
+sudo apt-get install apache2
+sudo apt-get install libapache2-mod-wsgi-py3
+sudo apache2ctl restart
+```
+
+Install git
+-----------
+```shell
+sudo apt-get install git
+```
+
+Install PostgreSQL and set up DB and user
+----------------------------------
+```shell
+sudo apt-get install postgresql
+sudo -u postgres createdb <dbname>
+sudo -u postgres createuser <username>
+sudo -u postgres psql
+psql=# alter user <username> with encrypted password '<password>';
+psql=# grant all privileges on database <dbname> to <username> ;
+```
+
+Edit Apache .conf file
+----------------------
+```
+<VirtualHost *:80>
+DocumentRoot /var/www/html
+WSGIScriptAlias / /var/www/html/app.wsgi
+        <Directory /var/www/html/>
+            Order allow,deny
+            Allow from all
+         </Directory>
+</VirtualHost>
+
+```
+
+
+Create the .wsgi File
+---------------------
+```
+import sys
+sys.path.insert(0, '/var/www/html/')
+from __init__ import app as application
+application.secret_key = 'super_secret_key'
+```
 
 License
 -------
