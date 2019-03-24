@@ -6,7 +6,7 @@ The Item Catalog application is now running on the Linux sever on the Apache2 en
 
 Visit http://daewoongko.ga to see it.
 
-If the link doesn't work, try https://50.17.107.48.xip.io
+If the link doesn't work, try http://50.17.107.48.xip.io
 
 
 Server Information
