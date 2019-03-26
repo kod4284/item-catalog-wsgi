@@ -144,3 +144,9 @@ License
 -------
 Item Catalog is Copyright © 2019 Daewoong Ko.
 It is freeware.
+
+Summary of the third party resources used
+-----------------------------------------
+When linux server is not updated: https://serverfault.com/questions/265410/ubuntu-server-message-says-packages-can-be-updated-but-apt-get-does-not-update
+
+How to make username and password for database in PostgreSQL: https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
