@@ -89,6 +89,11 @@ sudo ufw allow 80
 sudo ufw allow 123
 sudo ufw enable
 ```
+Upgrade pip
+-----------
+```shell
+python -m pip install --upgrade pip
+```
 
 Install Apache2 and mod_wsgi to run Python Flask application
 ------------------------------------------------------------
@@ -104,7 +109,35 @@ Install git
 ```shell
 sudo apt-get install git
 ```
+Install pip
+-----------
+```shell
+sudo apt-get install python-pip
+```
+```shell
+sudo apt-get install python-pip3
+```
+Install SqlAlchemy
+------------------
+```shell
+sudo -H pip3 install Flask-SQLAlchemy
+````
 
+Install Flask
+-------------
+```shell
+pip install flask
+```
+```shell
+pip3 install Flask
+```
+If those doesn't work try:
+```shell
+pip -H install flask
+```
+```shell
+pip3 -H install Flask
+```
 Install PostgreSQL and set up DB and user
 ----------------------------------
 ```shell
@@ -118,6 +151,11 @@ psql=# grant all privileges on database <dbname> to <username> ;
 
 Edit Apache .conf file
 ----------------------
+To edit
+```shell
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+```
+
 ```
 <VirtualHost *:80>
 DocumentRoot /var/www/html
@@ -129,8 +167,6 @@ WSGIScriptAlias / /var/www/html/app.wsgi
 </VirtualHost>
 
 ```
-
-
 Create the .wsgi File
 ---------------------
 ```
@@ -138,6 +174,12 @@ import sys
 sys.path.insert(0, '/var/www/html/')
 from __init__ import app as application
 application.secret_key = 'super_secret_key'
+```
+
+See error log
+-------------
+```shell
+sudo tail /var/log/apache2/error.log
 ```
 
 License
