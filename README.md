@@ -4,6 +4,8 @@ Linux Sever Configuration for Item Catalog application I have made before [Item 
 
 The Item Catalog application is now running on the Linux sever on the Apache2 environment.
 
+!IMPORTANT: the server for this project is being used by another project currently so you can't see the application on the links below. Please, go to the link above to see actual codes for this project!
+
 Visit http://daewoongko.ga to see it.
 
 If the link doesn't work, try http://50.17.107.48.xip.io
